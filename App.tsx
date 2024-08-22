@@ -1,118 +1,140 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const products=[
+  {
+    id:1,
+    title:'Product 1',
+    description: 'This is My first Product ',
+    image : require('./assets/img1.jpeg')
+  },
+  {
+    id:2,
+    title:'Product 2',
+    description: 'This is My first Product ',
+    image : require('./assets/img2.jpeg')
+  },
+  {
+    id:3,
+    title:'Product 3',
+    description: 'This is My first Product ',
+    image : require('./assets/img1.jpeg')
+  },
+  {
+    id:4,
+    title:'Product 4',
+    description: 'This is My first Product ',
+    image : require('./assets/img3.png')
+  },
+  {
+    id:4,
+    title:'Product 4',
+    description: 'This is My first Product ',
+    image : require('./assets/img3.png')
+  },
+  {
+    id:4,
+    title:'Product 4',
+    description: 'This is My first Product ',
+    image : require('./assets/img3.png')
+  },
+  {
+    id:4,
+    title:'Product 4',
+    description: 'This is My first Product ',
+    image : require('./assets/img3.png')
+  },
+  {
+    id:4,
+    title:'Product 4',
+    description: 'This is My first Product ',
+    image : require('./assets/img3.png')
+  },
+]
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+const ProductCard=({item,onPress}:{item: typeof products[0];onPress :()=> void})=>{
+  return(
+  <TouchableOpacity onPress={onPress}>
+    <View style={style.card}>
+      <Image  style={style.image} source={item.image} />
+      <Text style={style.title}>{item.title}</Text>
+      <Text style={style.description}>{item.description}</Text>
     </View>
+
+  </TouchableOpacity>
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+const App=()=>{
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+  const handlepress =(item :any)=>{
+    console.log('pressed Item',item.title);
+  }
+  return(
+    <View style={style.container}>
+      <Text style={{ fontSize: 20, color: 'black' }}>Welcome to my Store</Text>
+      <FlatList 
+        data={products}
+        renderItem={({ item }) => (
+          <ProductCard
+            item={item}
+            onPress={() => handlepress(item)}
+          />
+        )}
+        keyExtractor={item => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={style.row}
+        contentContainerStyle={style.flatlistcontent}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+    </View>
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  );
+};
+
+const style=StyleSheet.create({
+  container:{
+    flex:1,
+    padding:10,
+    backgroundColor:"#f2f2f2"
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  card:{
+    backgroundColor:'#fff',
+    borderRadius:10,
+    padding:10,
+    alignItems:'center',
+    shadowColor:'#000',
+    shadowOpacity:0.1,
+    shadowOffset:{width:0,height:2}
+    
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  flatlistcontent:{
+    paddingBottom:10,
   },
-  highlight: {
-    fontWeight: '700',
+  row:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    marginBottom:5
   },
-});
+  image:{
+    width:'100%',
+    height:100,
+    borderRadius:10,
+    marginBottom:10
+
+  },
+  title:{
+    fontSize:16,
+    fontWeight:'bold',
+    marginBottom:5
+
+  },
+  description:{
+    fontSize:14,
+    color:'#666',
+    textAlign:'center'
+  }
+})
 
 export default App;
